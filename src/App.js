@@ -1,10 +1,20 @@
-import {useState} from 'react';
-import './App.css';
+import {useEffect, useState} from 'react';
 import ItemList from './components/ItemList.js';
 import AddItem from './components/AddItem.js';
 
 function App() {
   const [list, setList] = useState([]);
+
+  useEffect(() => {
+    const savedList = JSON.parse(localStorage.getItem('itemList'));
+    if (savedList) {
+      setList(savedList);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('itemList', JSON.stringify(list));
+  }, [list]);
 
   const addItem = (item) => {
     const newItem = {
